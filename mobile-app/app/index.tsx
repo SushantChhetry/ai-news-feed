@@ -46,6 +46,7 @@ export default function HomeScreen() {
               summary={item.summary}
               source={item.source}
               publishedAt={item.publishedAt}
+              imageUrl={item.urlToImage}
               onPress={() => {}}
             />
           )}

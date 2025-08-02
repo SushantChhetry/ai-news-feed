@@ -1,21 +1,34 @@
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, Image } from 'react-native';
 
 type NewsCardProps = {
   title: string;
   summary: string;
   source: string;
   publishedAt: string;
+  imageUrl?: string;
   onPress: () => void;
 };
 
-export default function NewsCard({ title, summary, source, publishedAt, onPress }: NewsCardProps) {
+export default function NewsCard({
+  title,
+  summary,
+  source,
+  publishedAt,
+  imageUrl,
+  onPress,
+}: NewsCardProps) {
   return (
     <TouchableOpacity style={styles.card} onPress={onPress}>
-      <Text style={styles.title}>{title}</Text>
-      <Text style={styles.summary}>{summary}</Text>
-      <View style={styles.footer}>
-        <Text style={styles.source}>{source}</Text>
-        <Text style={styles.date}>{timeAgo(publishedAt)}</Text>
+      {imageUrl ? <Image source={{ uri: imageUrl }} style={styles.image} /> : null}
+      <View style={styles.content}>
+        <Text style={styles.title}>{title}</Text>
+        <Text style={styles.summary} numberOfLines={3}>
+          {summary}
+        </Text>
+        <View style={styles.footer}>
+          <Text style={styles.source}>{source}</Text>
+          <Text style={styles.date}>{timeAgo(publishedAt)}</Text>
+        </View>
       </View>
     </TouchableOpacity>
   );
@@ -31,15 +44,17 @@ const timeAgo = (dateString: string) => {
 const styles = StyleSheet.create({
   card: {
     backgroundColor: '#fff',
-    padding: 16,
     marginVertical: 8,
     borderRadius: 10,
+    overflow: 'hidden',
     shadowColor: '#000',
     shadowOpacity: 0.1,
     shadowOffset: { width: 0, height: 2 },
     shadowRadius: 5,
     elevation: 3,
   },
+  image: { width: '100%', height: 180 },
+  content: { padding: 16 },
   title: { fontSize: 16, fontWeight: '600', marginBottom: 6 },
   summary: { fontSize: 14, color: '#555' },
   footer: {
